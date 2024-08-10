@@ -33,7 +33,7 @@ def response_generator(question,api_key,engine,temperature,max_tokens):
 
 
 ## #Title of the app
-st.title("Enhanced Q&A Chatbot With OpenAI")
+st.title("Hy Buddy,I am  fucking awesome AKash.I know everylittle thing .Come to me i will give you all Gyan of the world")
 
 ## Sidebar for settings
 st.sidebar.title("Settings")
@@ -51,7 +51,7 @@ max_tokens = st.sidebar.slider("Max Tokens", min_value=50, max_value=300, value=
 
 
 ## MAin interface for user input
-st.write("Go ahead and ask any question")
+st.write("Try me & you wont regret")
 user_input=st.text_input("You:")
 
 if user_input and api_key:
