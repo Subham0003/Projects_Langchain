@@ -7,12 +7,13 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 import openai
 
+## Load OpenAI API Key
+## Load OpenAI API Key
+api_key = os.getenv("OPENAI_API_KEY")
+
+os.environ["OPENAI_API_KEY"] = api_key
 
 
-if os.path.exists('next_word_lstm.h5'):
-    model = load_model('next_word_lstm.h5')
-else:
-    print("File not found!")
 
 
 #creating chatprompt
@@ -36,7 +37,7 @@ st.title("Enhanced Q&A Chatbot With OpenAI")
 
 ## Sidebar for settings
 st.sidebar.title("Settings")
-api_key=st.sidebar.text_input("Enter your Open AI API Key:",type="password")
+
 
 
 ## Select the OpenAI model
