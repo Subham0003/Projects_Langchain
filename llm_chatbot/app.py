@@ -9,6 +9,11 @@ import openai
 
 
 
+if os.path.exists('next_word_lstm.h5'):
+    model = load_model('next_word_lstm.h5')
+else:
+    print("File not found!")
+
 
 #creating chatprompt
 
