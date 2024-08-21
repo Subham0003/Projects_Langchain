@@ -16,12 +16,14 @@ from langchain_community.document_loaders import PyPDFLoader
 import streamlit as st
 
 os.environ['HF_TOKEN']=os.getenv('HF_TOKEN')
-embeddings=HuggingFaceEmbeddings(model_name='"all-MiniLM-L6-v2"')
+embeddings=HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+
+
 
 
 ##Lets seeting up streamlit 
 
-st.titel("Conversational RAG With PDF uplaods and chat history")
+st.title("Conversational RAG With PDF uplaods and chat history")
 st.write("Upload Pdf's and chat with their content")
 
 ## Input the Groq API Key
@@ -41,11 +43,11 @@ if api_key:
     upload_files=st.file_uploader("Upload your pdf files",type='pdf',accept_multiple_files=True)
     if upload_files:
         documents=[]
-        for file in upload_files:
+        for files in upload_files:
             temppdf=f"./temp.pdf"
             with open(temppdf,"wb") as file:
-                file.write(file.getvalue()) 
-                file_name=file.name
+                file.write(files.getvalue()) 
+                file_name=files.name
 
 
             loader=PyPDFLoader(temppdf)
@@ -96,3 +98,30 @@ if api_key:
 
         question_answer_chain=create_stuff_documents_chain(llm,qa_prompt)
         rag_chain=create_retrieval_chain(history_aware_retriever,question_answer_chain)
+
+        def get_session_history(session:str)->BaseChatMessageHistory:
+            if session_id not in st.session_state.store:
+                st.session_state.store[session_id]=ChatMessageHistory()
+            return st.session_state.store[session_id]
+        
+        conversational_rag_chain=RunnableWithMessageHistory(
+            rag_chain,get_session_history,
+            input_messages_key="input",
+            history_messages_key="chat_history",
+            output_messages_key="answer"
+        )
+
+        user_input = st.text_input("Your question:")
+        if user_input:
+            session_history=get_session_history(session_id)
+            response = conversational_rag_chain.invoke(
+                {"input": user_input},
+                config={
+                    "configurable": {"session_id":session_id}
+                },  # constructs a key "abc123" in `store`.
+            )
+            st.write(st.session_state.store)
+            st.write("Assistant:", response['answer'])
+            st.write("Chat History:", session_history.messages)
+else:
+    st.warning("Please enter the GRoq API Key")
