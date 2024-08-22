@@ -30,3 +30,8 @@ uvicorn
 langserve
 sse_starlette
 langchainhub
+duckduckgo-search
+validators==0.28.1
+youtube_transcript_api
+unstructured
+pytube
