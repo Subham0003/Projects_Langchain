@@ -48,3 +48,5 @@ if st.button('Classify'):
 else:
     st.write('Please enter a movie review.')
 
+from geo import area
+
