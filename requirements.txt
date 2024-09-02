@@ -35,3 +35,8 @@ validators==0.28.1
 youtube_transcript_api
 unstructured
 pytube
+langchain_nvidia_ai_endpoints
+crewai
+crewai_tools
+yt_dlp==2023.11.14 
+youtube-transcript-api==0.6.1
